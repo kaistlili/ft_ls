@@ -84,7 +84,7 @@ int	cmplex(t_file_lst *chain, t_file_lst *to_add)
 
 	int var;
 
-	to_add_name = ft_strrchr(to_add->full_path, '/');
+	to_add_name = ft_strrchr(to_add->full_path, '/'); /* ditch all this shit and just cmp chain->name and to_add->name*/
 	chain_name = ft_strrchr(chain->full_path, '/');
 	if (to_add_name == NULL)
 		to_add_name = to_add->full_path;
