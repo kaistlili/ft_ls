@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 01:49:09 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/07 21:35:38 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/08 00:38:59 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,40 @@ void	ft_validate_input(char *arg)
 
 void	test_linked(t_file_lst *start)
 {
+	ft_printf("NODES:\n");
 	while (start != NULL)
 	{
 		printf("%s| st_mode %d\n",start->full_path,start->data->st_mode);
 		start = start->next;
 	}
 }
+/*
+t_file_lst	*new_file_node(char *path)
+{
+	t_file_lst	*tmp;
+	int			ret;
 
+	tmp = new_node(path);
+	if (tmp == NULL)
+		return (NULL);
+	if (init_struct(tmp, path) == -1)
+		ft_printf("path too big\n");
+	ret = stat_fn(tmp->full_path, tmp->data);
+	if (ret < 0)
+	{
+		delete_node(tmp);
+		perror("");
+		return (NULL);
+	}
+	return (tmp);
+}
+*/
 t_file_lst *handle_av(char **av)
 {
 	t_file_lst	*file_lst;
 	t_file_lst	*dir_lst;	
 	t_file_lst	*tmp;
 	int ret;
-	mode_t todel;
 
 	file_lst = NULL;
 	dir_lst = NULL;
@@ -58,21 +78,13 @@ t_file_lst *handle_av(char **av)
 	{
 		
 		ft_validate_input(av[optind]);
-		tmp = new_node(av[optind]);
+		tmp = new_file_node(av[optind]);
+		ft_strncpy(tmp->name, av[optind],ft_strlen(av[optind]));
 		if (tmp == NULL)
 			return (NULL);
-		ret = stat_fn(av[optind], tmp->data);
-		todel = tmp->data->st_mode;	
-		if (ret < 0)
-		{
-			delete_node(tmp);
-			perror("");
-		}
 		else
 		{	
-			if (init_struct(tmp, av[optind]) == -1)
-				ft_printf("Full Path too big for: %s", av[optind]);
-			if (ft_filetype(todel) == 'd')
+			if (ft_filetype(tmp->data->st_mode) == 'd')
 				add_fn(&dir_lst, tmp);
 			else
 				add_fn(&file_lst, tmp) ;	
@@ -80,6 +92,5 @@ t_file_lst *handle_av(char **av)
 		optind++;
 	}
 	append_lst(&file_lst, dir_lst);
-	test_linked(file_lst);
 	return (file_lst);
 }

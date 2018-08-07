@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 01:45:01 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/07 20:38:03 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/08 00:32:50 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,28 +37,28 @@ void	parse_test(void)
 		ft_printf("other sort function\n");
 	printf("\n-----------------\n");
 }
-
+/*
 t_file_lst	*init_current(void)
 {
 	t_file_lst *tmp;
 	int ret;
 
-	tmp = new_node("/");
+	tmp = new_node("./");
 	if (tmp == NULL)
 		return (NULL);
-	ret = stat_fn("/",tmp->data);
+	ret = stat_fn("./",tmp->data);
 	if (ret < 0)
 	{
 		delete_node(tmp);
 		perror("");
-		exit(1); /* PANIC EXIT */
+		exit(1); 
 	}
 	return (tmp);
 }
-
+*/
 int main(int ac, char **av)
 {
-	t_file_lst	**args_list;
+	t_file_lst	**args_lst;
 	t_file_lst	**head;
 	int			Recursive;
 	int			i;
@@ -68,13 +68,16 @@ int main(int ac, char **av)
 	ft_parseopt(ac, av, &Recursive);	
 	parse_test();
 	/*	ft_printf("optind: %d\n", optind);*/
-	args_list = malloc(sizeof(t_file_lst*));
-	if (args_list == NULL)
+	args_lst = malloc(sizeof(t_file_lst*));
+	if (args_lst == NULL)
 		return (-1);
 	if (av[optind] == NULL)
-		*args_list = init_current();
+		*args_lst = new_file_node("./");
 	else
-		*args_list = handle_av(av);
-
-
+		*args_lst = handle_av(av);
+	if (*args_lst == NULL)
+		ft_printf("FATAL ERROR NULL ARG LST\n");
+	test_linked(*args_lst);
+	ft_printf("calling inner ls:\n");
+	ft_inner_ls(*args_lst, 0);
 }

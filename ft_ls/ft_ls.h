@@ -6,24 +6,33 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/04 18:23:18 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/07 21:33:26 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/08 00:38:21 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+TODO:
+integrate name in 
+
+
+*/
 #include <sys/stat.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <dirent.h>
+#include <sys/dirent.h>
 #include "libft.h"
 #include "ft_printf.h"
 
 typedef struct s_file_lst
 {
-	char full_path[4096];
-	size_t path_size;
-	struct stat *data;
-	struct s_file_lst *next;
+	char	full_path[4096];
+	char	name[255]; /*for excluding .. . easily */
+	size_t	path_size;
+	struct	stat *data;
+	struct	s_file_lst *next;
 }				t_file_lst;
 
 
@@ -59,4 +68,6 @@ t_file_lst	*handle_av(char **av);
 int	init_struct(t_file_lst *tmp, char *name);
 char	ft_filetype(mode_t st_mode);
 void	append_lst(t_file_lst **apend_to, t_file_lst *to_append);
-
+void	test_linked(t_file_lst *start);
+t_file_lst	*new_file_node(char *path);
+int	ft_inner_ls(t_file_lst *current, int Recursive);

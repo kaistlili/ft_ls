@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/04 18:33:44 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/07 21:36:07 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/08 00:42:00 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,34 @@ t_file_lst	*new_node(char *path)
 	return (tmp);
 }
 
+
+t_file_lst	*new_file_node(char *path)
+{
+	t_file_lst	*tmp;
+	int			ret;
+
+	tmp = new_node(path);
+	if (tmp == NULL)
+		return (NULL);
+	if (init_struct(tmp, path) == -1)
+		ft_printf("path too big\n");
+	ret = stat_fn(tmp->full_path, tmp->data);
+	if (ret < 0)
+	{
+		delete_node(tmp);
+		perror("");
+		return (NULL);
+	}
+	return (tmp);
+}
+
+
+
 void	delete_node(t_file_lst *to_delete)
 {
 	free(to_delete->data);
 	free(to_delete);
 }
-
-/*
-{F}
-
-{A} {B} {BBBB} {BBBC} {CCCC}
-*/
 
 int	cmplex(t_file_lst *chain, t_file_lst *to_add)
 {
@@ -103,8 +120,8 @@ void	add_node(t_file_lst **head, t_file_lst *to_add)
 {
 	t_file_lst *tmp;
 
-	if ((!ft_strncmp(to_add->full_path,".",1)) && 
-		(ft_strncmp(to_add->full_path,"./",2)))
+	if ((!ft_strncmp(to_add->name,".",1)) && 
+		(ft_strncmp(to_add->name,"./",2)))
 		/*THIS IS WRONG AND WILL CHANGE */
 	{/*we have to extract name from path before strcmp otherwise we break -R */
 		delete_node(to_add);

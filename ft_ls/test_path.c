@@ -1,36 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmp.c                                              :+:      :+:    :+:   */
+/*   test_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/07 00:45:40 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/08 00:41:38 by ktlili           ###   ########.fr       */
+/*   Created: 2018/08/07 23:46:22 by ktlili            #+#    #+#             */
+/*   Updated: 2018/08/07 23:48:07 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ft_ls.h"
+#include "libft.h"
 
-int		cmplex_r(t_file_lst *chain, t_file_lst *to_add)
+void	construct_path(char *parent, char *sub_name, char *buff)
 {
-	return (1);
-}
-int		cmpt(t_file_lst *chain, t_file_lst *to_add)
-{
-	return (1);
-}
-int		cmpt_r(t_file_lst *chain, t_file_lst *to_add)
-{
-	return (1);
+	int len;
+
+	ft_bzero(buff, 4096);
+	len = ft_strlen(parent);
+	ft_strncpy(buff, parent, len);
+	buff[len] = '/';
+	ft_strncpy(&buff[len+1], sub_name, ft_strlen(sub_name));
 }
 
-void	reg_format(t_file_lst *to_print)
+int main(int ac, char **av)
 {
-	ft_printf("%s\n",to_print->name);
-}
+	char path[4096];
 
-void	long_format(t_file_lst *to_print)
-{
-
+	construct_path(av[1], av[2], path);
+	ft_printf("%s\n", path);
 }
