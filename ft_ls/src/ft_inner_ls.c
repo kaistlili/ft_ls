@@ -24,13 +24,13 @@ void	construct_path(char *parent, char *sub_name, char *buff)
 	ft_bzero(buff, 4096);
 	len = ft_strlen(parent);
 	ft_strncpy(buff, parent, len);
-	if ((!ft_strncmp(parent,"./",2)) && (len == 2)) 
+	if ((!ft_strncmp(parent,"/",1)) && (len == 1))
 		len--;
 	else
 		buff[len] = '/';
 	ft_strncpy(&buff[len+1], sub_name, ft_strlen(sub_name));
 
-	ft_printf("constructing %s| %s|got:%s\n",parent,sub_name,buff);
+//	ft_printf("constructing %s| %s|got:%s\n",parent,sub_name,buff);
 }
 
 t_file_lst	*explore_dir(t_file_lst *to_explore)

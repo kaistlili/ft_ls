@@ -59,7 +59,7 @@ int main(int ac, char **av)
 	if (args_lst == NULL)
 		return (-1);
 	if (av[optind] == NULL)
-		*args_lst = new_file_node("./");
+		*args_lst = new_file_node(".");
 	else
 		*args_lst = handle_av(av);
 	if (*args_lst == NULL)

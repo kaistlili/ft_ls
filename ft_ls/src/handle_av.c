@@ -27,8 +27,9 @@ void	ft_validate_input(char *arg)
 {
 	char *last_bslash;
 
-	if (((ft_strlen(arg) == 2) && (!ft_strncmp(arg,"./",2)))
-			|| ((strlen(arg) == 1) && (!ft_strncmp(arg, "/", 1))))
+	if ((((strlen(arg) == 1) && (!ft_strncmp(arg, "/", 1))) ||
+			 (strlen(arg) == 2) && (!ft_strncmp(arg, "./", 2))) ||
+				 (strlen(arg) == 3) && (!ft_strncmp(arg, "../", 3))) 
 		return;
 	if (*arg == '/')
 		arg++;
@@ -36,6 +37,7 @@ void	ft_validate_input(char *arg)
 	if (last_bslash == NULL)
 		return;
 	*last_bslash = 0;
+	ft_printf("arg is: %s\n", arg);
 }
 
 
@@ -48,33 +50,12 @@ void	test_linked(t_file_lst *start)
 		start = start->next;
 	}
 }
-/*
-t_file_lst	*new_file_node(char *path)
-{
-	t_file_lst	*tmp;
-	int			ret;
 
-	tmp = new_node(path);
-	if (tmp == NULL)
-		return (NULL);
-	if (init_struct(tmp, path) == -1)
-		ft_printf("path too big\n");
-	ret = stat_fn(tmp->full_path, tmp->data);
-	if (ret < 0)
-	{
-		delete_node(tmp);
-		perror("");
-		return (NULL);
-	}
-	return (tmp);
-}
-*/
 t_file_lst *handle_av(char **av)
 {
 	t_file_lst	*file_lst;
 	t_file_lst	*dir_lst;	
 	t_file_lst	*tmp;
-	int ret;
 
 	file_lst = NULL;
 	dir_lst = NULL;
@@ -82,6 +63,7 @@ t_file_lst *handle_av(char **av)
 	{
 		
 		ft_validate_input(av[optind]);
+		ft_printf("stating with %s\n", av[optind]); //debug
 		tmp = new_file_node(av[optind]);
 		if (tmp == NULL)
 			return (NULL);

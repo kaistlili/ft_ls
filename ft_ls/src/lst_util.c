@@ -31,7 +31,7 @@ char	ft_filetype(mode_t st_mode)
 	return (0);
 }
 
-t_file_lst	*new_node(char *path)
+t_file_lst	*new_node(char *path) /* path is useless here*/
 {
 	t_file_lst *tmp;
 
@@ -49,7 +49,7 @@ t_file_lst	*new_node(char *path)
 	ft_bzero(tmp->name,255);
 	return (tmp);
 }
-
+/* ../ not working we have to figure out why*/
 
 t_file_lst	*new_file_node(char *path)
 {
