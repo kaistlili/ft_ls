@@ -13,7 +13,10 @@
 #include "../ft_ls.h"
 
 
-
+/*
+	our validate input will clean any / from end of string.
+	only case we have a / at end of string is ./
+*/
 void	construct_path(char *parent, char *sub_name, char *buff)
 {
 	int len;
@@ -27,7 +30,7 @@ void	construct_path(char *parent, char *sub_name, char *buff)
 		buff[len] = '/';
 	ft_strncpy(&buff[len+1], sub_name, ft_strlen(sub_name));
 
-/*	ft_printf("constructing %s| %s|got%s\n",parent,sub_name,buff);*/
+	ft_printf("constructing %s| %s|got:%s\n",parent,sub_name,buff);
 }
 
 t_file_lst	*explore_dir(t_file_lst *to_explore)
