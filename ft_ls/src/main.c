@@ -35,27 +35,14 @@ void	parse_test(void)
 		ft_printf("sorting lexico normal\n");
 	else
 		ft_printf("other sort function\n");
-	printf("\n-----------------\n");
+	ft_printf("\n-----------------\n");
 }
-/*
-t_file_lst	*init_current(void)
-{
-	t_file_lst *tmp;
-	int ret;
 
-	tmp = new_node("./");
-	if (tmp == NULL)
-		return (NULL);
-	ret = stat_fn("./",tmp->data);
-	if (ret < 0)
-	{
-		delete_node(tmp);
-		perror("");
-		exit(1); 
-	}
-	return (tmp);
-}
+/*	printf struct->full_path only when more than 1 arg passed 
+
 */
+
+
 int main(int ac, char **av)
 {
 	t_file_lst	**args_lst;
@@ -77,7 +64,16 @@ int main(int ac, char **av)
 		*args_lst = handle_av(av);
 	if (*args_lst == NULL)
 		ft_printf("FATAL ERROR NULL ARG LST\n");
-	test_linked(*args_lst);
-	ft_printf("calling inner ls:\n");
-	ft_inner_ls(*args_lst, 0);
+/*	test_linked(*args_lst);
+*/	ft_printf("calling inner ls:\n");
+	
+	t_file_lst *tmp;
+	tmp = *args_lst;
+	while (tmp != NULL)
+	{
+		if (S_ISDIR(tmp->data->st_mode))
+			ft_printf("\n%s:\n", tmp->name);
+		ft_inner_ls(tmp, Recursive);
+		tmp = tmp->next;
+	}
 }

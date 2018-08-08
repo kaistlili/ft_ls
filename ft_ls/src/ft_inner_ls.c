@@ -21,8 +21,13 @@ void	construct_path(char *parent, char *sub_name, char *buff)
 	ft_bzero(buff, 4096);
 	len = ft_strlen(parent);
 	ft_strncpy(buff, parent, len);
-	buff[len] = '/';
+	if ((!ft_strncmp(parent,"./",2)) && (len == 2)) 
+		len--;
+	else
+		buff[len] = '/';
 	ft_strncpy(&buff[len+1], sub_name, ft_strlen(sub_name));
+
+/*	ft_printf("constructing %s| %s|got%s\n",parent,sub_name,buff);*/
 }
 
 t_file_lst	*explore_dir(t_file_lst *to_explore)
@@ -33,9 +38,10 @@ t_file_lst	*explore_dir(t_file_lst *to_explore)
 	char	path[4096];
 	t_file_lst	*tmp;
 
+//return if to_explore == NULL	
+	file_lst = NULL;
 	if (!S_ISDIR(to_explore->data->st_mode))
 		return (NULL);
-	file_lst = NULL;
 	dirp = opendir(to_explore->full_path);
 	if (dirp == NULL)
 		return (NULL);
@@ -43,12 +49,12 @@ t_file_lst	*explore_dir(t_file_lst *to_explore)
 	{
 		construct_path(to_explore->full_path, entry->d_name, path);
 		tmp = new_file_node(path);
-		ft_strncpy(tmp->name, entry->d_name, ft_strlen(entry->d_name));
 		if (tmp == NULL)
 		{
 			/*free all and exit */
 			return (NULL);
-		}
+		}	
+		ft_strncpy(tmp->name, entry->d_name, ft_strlen(entry->d_name));
 		add_fn(&file_lst, tmp);
 	}
 	closedir(dirp);
@@ -66,26 +72,26 @@ int	ft_inner_ls(t_file_lst *current, int Recursive)
 		format_fn(current);
 		return (0);
 	}
-	else
-	{
-		curr_dir = explore_dir(current); /* open read close dir
+	curr_dir = explore_dir(current); /* open read close dir
 											then return sorted linked list*/
-		iter = curr_dir;
-		while (iter != NULL)
-		{
-			format_fn(iter);
-			iter = iter->next;
-		}
-	}/*
-	if (Recursive)
+	iter = curr_dir;
+	while (iter != NULL)
+	{
+		format_fn(iter);
+		iter = iter->next;
+	}
+	if (Recursive == 1)
 	{
 		iter = curr_dir;
 		while (iter != NULL)
 		{
-			if (S_ISDIR(current->data->st_mode))
+			if (S_ISDIR(iter->data->st_mode))
+			{
+				ft_printf("\n%s:\n", iter->full_path);
 				ft_inner_ls(iter, Recursive);
+			}
 			iter = iter->next;
 		}
-	}*/
+	}
 	return (1);
 }
