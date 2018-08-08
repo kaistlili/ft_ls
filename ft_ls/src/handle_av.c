@@ -62,7 +62,7 @@ t_file_lst *handle_av(char **av)
 	while (av[optind] != NULL)
 	{
 		
-		ft_validate_input(av[optind]);
+//		ft_validate_input(av[optind]);
 		tmp = new_file_node(av[optind]);
 		if (tmp == NULL)
 			return (NULL);

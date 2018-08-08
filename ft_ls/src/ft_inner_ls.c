@@ -29,8 +29,28 @@ int	is_explorable(t_file_lst *node)
 
 /*
 	our validate input will clean any / from end of string.
-	only case we have a / at end of string is ./
+	only case we have a / at end of string is ./ or ../
 */
+void	construct_path(char *parent, char *sub_name, char *buff)
+{
+	int len;
+
+	ft_bzero(buff, 4096);
+	len = ft_strlen(parent);
+	if (len > 4096 - 1)
+		return; /* handle errors here*/
+	ft_strncpy(buff, parent, len);
+	if (buff[len - 1] == '/')
+		ft_strncpy(&buff[len], sub_name, ft_strlen(sub_name));
+	else
+	{
+		buff[len] = '/';
+				
+	ft_strncpy(&buff[len+1], sub_name, ft_strlen(sub_name));
+	}
+//	ft_printf("constructing %s| %s|got:%s\n",parent,sub_name,buff);
+}
+/*
 void	construct_path(char *parent, char *sub_name, char *buff)
 {
 	int len;
@@ -45,7 +65,7 @@ void	construct_path(char *parent, char *sub_name, char *buff)
 	ft_strncpy(&buff[len+1], sub_name, ft_strlen(sub_name));
 
 //	ft_printf("constructing %s| %s|got:%s\n",parent,sub_name,buff);
-}
+}*/
 
 t_file_lst	*explore_dir(t_file_lst *to_explore)
 {	
@@ -55,7 +75,6 @@ t_file_lst	*explore_dir(t_file_lst *to_explore)
 	char	path[4096];
 	t_file_lst	*tmp;
 
-//return if to_explore == NULL	
 	file_lst = NULL;
 	if (!S_ISDIR(to_explore->data->st_mode))
 		return (NULL);
@@ -95,7 +114,7 @@ int	ft_inner_ls(t_file_lst *current, int Recursive)
 	while (iter != NULL)
 	{
 // debug 
-		ft_printf("%s is explorable%d ?\n",iter->name, is_explorable(iter));
+	//	ft_printf("%s is explorable%d ?\n",iter->name, is_explorable(iter));
 		format_fn(iter);
 		iter = iter->next;
 	}

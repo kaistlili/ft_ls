@@ -16,13 +16,14 @@ integrate name in
 
 
 */
+#include <stdio.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <dirent.h>
-#include <sys/dirent.h>
+//#include <sys/dirent.h>
 #include "libft.h"
 #include "ft_printf.h"
 
@@ -68,6 +69,8 @@ t_file_lst	*handle_av(char **av);
 int	init_struct(t_file_lst *tmp, char *name);
 char	ft_filetype(mode_t st_mode);
 void	append_lst(t_file_lst **apend_to, t_file_lst *to_append);
-void	test_linked(t_file_lst *start);
 t_file_lst	*new_file_node(char *path);
 int	ft_inner_ls(t_file_lst *current, int Recursive);
+//test functions
+void	test_linked(t_file_lst *start);
+void	parse_test(void);
