@@ -12,6 +12,20 @@
 
 #include "../ft_ls.h"
 
+/*
+	return 0 on !dir or . .. else return 1;
+	maybe add infninite link check here ?
+
+*/
+int	is_explorable(t_file_lst *node) 
+{
+	if (!S_ISDIR(node->data->st_mode))
+		return (0);
+	if (((strlen(node->name) == 1) && (!ft_strncmp(node->name, ".", 1))) ||
+			 (strlen(node->name) == 2) && (!ft_strncmp(node->name, "..", 2))) 
+		return (0);
+	return (1);
+}
 
 /*
 	our validate input will clean any / from end of string.
@@ -80,6 +94,8 @@ int	ft_inner_ls(t_file_lst *current, int Recursive)
 	iter = curr_dir;
 	while (iter != NULL)
 	{
+// debug 
+		ft_printf("%s is explorable%d ?\n",iter->name, is_explorable(iter));
 		format_fn(iter);
 		iter = iter->next;
 	}
