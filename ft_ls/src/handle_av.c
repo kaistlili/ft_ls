@@ -63,7 +63,6 @@ t_file_lst *handle_av(char **av)
 	{
 		
 		ft_validate_input(av[optind]);
-		ft_printf("stating with %s\n", av[optind]); //debug
 		tmp = new_file_node(av[optind]);
 		if (tmp == NULL)
 			return (NULL);

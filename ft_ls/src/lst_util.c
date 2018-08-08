@@ -123,7 +123,8 @@ void	add_node(t_file_lst **head, t_file_lst *to_add)
 	t_file_lst *tmp;
 
 	if ((!ft_strncmp(to_add->name,".",1)) && 
-		(ft_strncmp(to_add->name,"./",2)))
+			(ft_strncmp(to_add->name,"./",2)) &&
+				(ft_strncmp(to_add->name,"../",3)))
 		/*THIS IS WRONG AND WILL CHANGE */
 	{/*we have to extract name from path before strcmp otherwise we break -R */
 		delete_node(to_add);

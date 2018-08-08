@@ -10,6 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+
+/*
+
+	to do:
+1-fix cmplex function, it should cmp t_file_lst->name and not full path
+2-handle . and .. as args somewhere in validate_input
+3-set error exits and error functions
+4-new_file_node probably will handle pre inner ls error buffer
+
+*/
+
+
+
 #include "../ft_ls.h"
 
 format_ptr	format_fn;
