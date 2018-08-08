@@ -166,3 +166,16 @@ void	add_all(t_file_lst **head, t_file_lst *to_add)
 		tmp->next = to_add;	
 	}
 }
+
+void	destroy_lst(t_file_lst *head)
+{
+	t_file_lst *tmp;
+
+	tmp = head;
+	while(head != NULL)
+	{
+		tmp = head->next;
+		ft_delete_node(head);
+		head = tmp;
+	}
+}
