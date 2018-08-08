@@ -45,6 +45,8 @@ t_file_lst	*new_node(char *path)
 		free(tmp);
 		return (NULL);
 	}
+	ft_bzero(tmp->full_path,4096);
+	ft_bzero(tmp->name,255);
 	return (tmp);
 }
 
@@ -63,7 +65,7 @@ t_file_lst	*new_file_node(char *path)
 	if (ret < 0)
 	{
 		delete_node(tmp);
-		perror("");
+		perror(path);
 		return (NULL);
 	}
 	return (tmp);
