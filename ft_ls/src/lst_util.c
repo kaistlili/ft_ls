@@ -175,7 +175,7 @@ void	destroy_lst(t_file_lst *head)
 	while(head != NULL)
 	{
 		tmp = head->next;
-		ft_delete_node(head);
+		delete_node(head);
 		head = tmp;
 	}
 }
