@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 01:45:01 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/09 13:40:42 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/09 13:49:44 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,6 @@ int main(int ac, char **av)
 		tmp = tmp->next;
 		i++;
 	}
+	destroy_lst(*args_lst);
+	free(args_lst);
 }

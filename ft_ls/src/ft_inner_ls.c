@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/07 22:03:29 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/09 13:25:02 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/09 13:56:59 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,5 +131,6 @@ int	ft_inner_ls(t_file_lst *current, int Recursive)
 			iter = iter->next;
 		}
 	}
+	destroy_lst(curr_dir);
 	return (1);
 }
