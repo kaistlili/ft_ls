@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 01:45:01 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/08 00:32:50 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/09 13:40:42 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,17 @@ int main(int ac, char **av)
 	if (*args_lst == NULL)
 		ft_printf("FATAL ERROR NULL ARG LST\n");
 /*	test_linked(*args_lst);
-*/	ft_printf("calling inner ls:\n");
+*/	ft_printf("calling inner ls:\n********************\n");
 	
 	t_file_lst *tmp;
+
 	tmp = *args_lst;
 	while (tmp != NULL)
 	{
-		if (S_ISDIR(tmp->data->st_mode))
+		if ((S_ISDIR(tmp->data->st_mode) && (i != 1)))
 			ft_printf("\n%s:\n", tmp->name);
 		ft_inner_ls(tmp, Recursive);
 		tmp = tmp->next;
+		i++;
 	}
 }
