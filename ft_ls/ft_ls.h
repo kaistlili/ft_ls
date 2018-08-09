@@ -30,7 +30,7 @@ integrate name in
 typedef struct s_file_lst
 {
 	char	full_path[4096];
-	char	name[255]; /*for excluding .. . easily */
+	char	name[255]; /*for excluding .. . easily | This should be a pointer to name in fullpath */
 	size_t	path_size;
 	struct	stat *data;
 	struct	s_file_lst *next;
