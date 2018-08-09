@@ -25,19 +25,9 @@ int	init_struct(t_file_lst *tmp, char *name)
 
 void	ft_validate_input(char *arg)
 {
-	char *last_bslash;
-
-	if ((((strlen(arg) == 1) && (!ft_strncmp(arg, "/", 1))) ||
-			 (strlen(arg) == 2) && (!ft_strncmp(arg, "./", 2))) ||
-				 (strlen(arg) == 3) && (!ft_strncmp(arg, "../", 3))) 
-		return;
-	if (*arg == '/')
-		arg++;
-	last_bslash = ft_strrchr(arg, '/');
-	if (last_bslash == NULL)
-		return;
-	*last_bslash = 0;
-	ft_printf("arg is: %s\n", arg);
+	if (((strlen(arg) == 1) && (!ft_strncmp(arg, ".", 1))) ||
+				 ((strlen(arg) == 2) && (!ft_strncmp(arg, "..", 2))))
+		arg[strlen(arg)] = '/';
 }
 
 
@@ -62,17 +52,17 @@ t_file_lst *handle_av(char **av)
 	while (av[optind] != NULL)
 	{
 		
-//		ft_validate_input(av[optind]);
-		tmp = new_file_node(av[optind]);
+		tmp = new_file_node(av[optind]);		
 		if (tmp == NULL)
-			return (NULL);
+			return (NULL);	
 		else
 		{	
-			ft_strncpy(tmp->name, av[optind],ft_strlen(av[optind]));
+			ft_validate_input(tmp->full_path);
+			ft_strncpy(tmp->name, tmp->full_path,ft_strlen(av[optind]));
 			if (ft_filetype(tmp->data->st_mode) == 'd')
-				add_fn(&dir_lst, tmp);
+				add_all(&dir_lst, tmp);
 			else
-				add_fn(&file_lst, tmp) ;	
+				add_all(&file_lst, tmp) ;	
 		}
 		optind++;
 	}
