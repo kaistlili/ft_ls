@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/07 22:03:29 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/08 00:41:33 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/09 13:25:02 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	is_explorable(t_file_lst *node)
 	if (!S_ISDIR(node->data->st_mode))
 		return (0);
 	if (((strlen(node->name) == 1) && (!ft_strncmp(node->name, ".", 1))) ||
-			 (strlen(node->name) == 2) && (!ft_strncmp(node->name, "..", 2))) 
+			((strlen(node->name) == 2) && (!ft_strncmp(node->name, "..", 2)))) 
 		return (0);
 	return (1);
 }
@@ -123,7 +123,7 @@ int	ft_inner_ls(t_file_lst *current, int Recursive)
 		iter = curr_dir;
 		while (iter != NULL)
 		{
-			if (S_ISDIR(iter->data->st_mode))
+			if (is_explorable(iter))
 			{
 				ft_printf("\n%s:\n", iter->full_path);
 				ft_inner_ls(iter, Recursive);

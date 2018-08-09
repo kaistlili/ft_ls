@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/04 18:33:44 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/08 00:42:00 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/09 13:25:51 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,28 +77,6 @@ void	delete_node(t_file_lst *to_delete)
 {
 	free(to_delete->data);
 	free(to_delete);
-}
-
-int	cmplex(t_file_lst *chain, t_file_lst *to_add)
-{
-	char *to_add_name;
-	char *chain_name;
-
-	int var;
-
-	to_add_name = ft_strrchr(to_add->full_path, '/'); /* ditch all this shit and just cmp chain->name and to_add->name*/
-	chain_name = ft_strrchr(chain->full_path, '/');
-	if (to_add_name == NULL)
-		to_add_name = to_add->full_path;
-	else
-		to_add_name++;
-	if (chain_name == NULL)
-		chain_name = chain->full_path;
-	else
-		chain_name++;
-	if ((var = ft_strcmp(chain_name, to_add_name)) > 0) /*chain_name < add_name */
-		return(1); /*insert here */
-	return (0); /* keep going */
 }
 
 void	append_lst(t_file_lst **append_to, t_file_lst *to_append)
