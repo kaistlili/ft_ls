@@ -36,7 +36,7 @@ void	test_linked(t_file_lst *start)
 	ft_printf("NODES:\n");
 	while (start != NULL)
 	{
-		printf("%s| st_mode %d\n",start->full_path,start->data->st_mode);
+		printf("%s| st_mode %d\n",start->full_path,start->data.st_mode);
 		start = start->next;
 	}
 }
@@ -59,7 +59,7 @@ t_file_lst *handle_av(char **av)
 		{	
 			ft_validate_input(tmp->full_path);
 			ft_strncpy(tmp->name, tmp->full_path,ft_strlen(av[optind]));
-			if (ft_filetype(tmp->data->st_mode) == 'd')
+			if (ft_filetype(tmp->data.st_mode) == 'd')
 				add_all(&dir_lst, tmp);
 			else
 				add_all(&file_lst, tmp) ;	

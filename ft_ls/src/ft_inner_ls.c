@@ -19,7 +19,7 @@
 */
 int	is_explorable(t_file_lst *node) 
 {
-	if (!S_ISDIR(node->data->st_mode))
+	if (!S_ISDIR(node->data.st_mode))
 		return (0);
 	if (((strlen(node->name) == 1) && (!ft_strncmp(node->name, ".", 1))) ||
 			((strlen(node->name) == 2) && (!ft_strncmp(node->name, "..", 2)))) 
@@ -48,7 +48,6 @@ void	construct_path(char *parent, char *sub_name, char *buff)
 				
 	ft_strncpy(&buff[len+1], sub_name, ft_strlen(sub_name));
 	}
-//	ft_printf("constructing %s| %s|got:%s\n",parent,sub_name,buff);
 }
 /*
 void	construct_path(char *parent, char *sub_name, char *buff)
@@ -76,11 +75,14 @@ t_file_lst	*explore_dir(t_file_lst *to_explore)
 	t_file_lst	*tmp;
 
 	file_lst = NULL;
-	if (!S_ISDIR(to_explore->data->st_mode))
+	if (!S_ISDIR(to_explore->data.st_mode))
 		return (NULL);
 	dirp = opendir(to_explore->full_path);
 	if (dirp == NULL)
-		return (NULL);
+	{
+		ft_printf("cant open dir: %s: %s\n",to_explore->full_path,strerror(errno));
+		return (NULL);	
+	}
 	while ((entry = readdir(dirp)) != NULL)
 	{
 		construct_path(to_explore->full_path, entry->d_name, path);
@@ -103,7 +105,7 @@ int	ft_inner_ls(t_file_lst *current, int Recursive)
 	t_file_lst *iter;
 
 	curr_dir = NULL;
-	if (!S_ISDIR(current->data->st_mode))
+	if (!S_ISDIR(current->data.st_mode))
 	{
 		format_fn(current);
 		return (0);
@@ -113,8 +115,6 @@ int	ft_inner_ls(t_file_lst *current, int Recursive)
 	iter = curr_dir;
 	while (iter != NULL)
 	{
-// debug 
-	//	ft_printf("%s is explorable%d ?\n",iter->name, is_explorable(iter));
 		format_fn(iter);
 		iter = iter->next;
 	}

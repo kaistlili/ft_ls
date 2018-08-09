@@ -37,14 +37,11 @@ t_file_lst	*new_node(char *path) /* path is useless here*/
 
 	tmp = malloc(sizeof(t_file_lst));
 	if (tmp == NULL)
-		return (NULL);
-	tmp->next = NULL;
-	tmp->data = malloc(sizeof(struct stat));
-	if (tmp->data == NULL)
 	{
 		free(tmp);
 		return (NULL);
 	}
+	tmp->next = NULL;
 	ft_bzero(tmp->full_path,4096);
 	ft_bzero(tmp->name,255);
 	return (tmp);
@@ -61,7 +58,7 @@ t_file_lst	*new_file_node(char *path)
 		return (NULL);
 	if (init_struct(tmp, path) == -1)
 		ft_printf("path too big\n");
-	ret = stat_fn(tmp->full_path, tmp->data);
+	ret = stat_fn(tmp->full_path, &(tmp->data));
 	if (ret < 0)
 	{
 		delete_node(tmp);
@@ -75,7 +72,6 @@ t_file_lst	*new_file_node(char *path)
 
 void	delete_node(t_file_lst *to_delete)
 {
-	free(to_delete->data);
 	free(to_delete);
 }
 
@@ -154,7 +150,7 @@ void	destroy_lst(t_file_lst *head)
 	while(head != NULL)
 	{
 		tmp = head->next;
-		delete_node(head);
+		free(head);
 		head = tmp;
 	}
 }

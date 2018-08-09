@@ -81,11 +81,10 @@ int main(int ac, char **av)
 */	ft_printf("calling inner ls:\n********************\n");
 	
 	t_file_lst *tmp;
-
 	tmp = *args_lst;
 	while (tmp != NULL)
 	{
-		if ((S_ISDIR(tmp->data->st_mode) && (i != 1)))
+		if ((S_ISDIR(tmp->data.st_mode) && (i != 1)))
 			ft_printf("\n%s:\n", tmp->name);
 		ft_inner_ls(tmp, Recursive);
 		tmp = tmp->next;
