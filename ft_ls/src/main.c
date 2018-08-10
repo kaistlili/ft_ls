@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 01:45:01 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/09 13:49:44 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/11 00:11:16 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,14 @@ void	parse_test(void)
 
 */
 
-
 int main(int ac, char **av)
 {
 	t_file_lst	**args_lst;
 	t_file_lst	**head;
 	int			Recursive;
-	int			i;
+	int			one_node;
+	t_file_lst *tmp;
 
-	i = 1;
 	Recursive = 0;
 	ft_parseopt(ac, av, &Recursive);	
 	parse_test();
@@ -79,16 +78,16 @@ int main(int ac, char **av)
 		ft_printf("FATAL ERROR NULL ARG LST\n");
 /*	test_linked(*args_lst);
 */	ft_printf("calling inner ls:\n********************\n");
-	
-	t_file_lst *tmp;
 	tmp = *args_lst;
+	one_node = 0;
+	if ((tmp->next == NULL) && (S_ISDIR(tmp->data.st_mode)))
+		one_node = 1;
 	while (tmp != NULL)
 	{
-		if ((S_ISDIR(tmp->data.st_mode) && (i != 1)))
+		if ((!one_node) && (S_ISDIR(tmp->data.st_mode)))
 			ft_printf("\n%s:\n", tmp->name);
 		ft_inner_ls(tmp, Recursive);
 		tmp = tmp->next;
-		i++;
 	}
 	destroy_lst(*args_lst);
 	free(args_lst);
