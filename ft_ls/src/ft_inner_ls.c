@@ -44,9 +44,8 @@ void	construct_path(char *parent, char *sub_name, char *buff)
 		ft_strncpy(&buff[len], sub_name, ft_strlen(sub_name));
 	else
 	{
-		buff[len] = '/';
-				
-	ft_strncpy(&buff[len+1], sub_name, ft_strlen(sub_name));
+		buff[len] = '/';		
+		ft_strncpy(&buff[len+1], sub_name, ft_strlen(sub_name));
 	}
 }
 /*
