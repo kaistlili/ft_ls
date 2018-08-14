@@ -14,10 +14,11 @@
 /*
 
 	to do:
-1-fix cmplex function, it should cmp t_file_lst->name and not full path
-2-handle . and .. as args somewhere in validate_input
-3-set error exits and error functions
-4-new_file_node probably will handle pre inner ls error buffer
+	1- add readlink to init struct when stat is specified.
+	2- verify buffer overflows on path and name.
+	3- verify error handling.
+	4- when dir permission denied, we should't print 'dirname:'	before it
+
 
 */
 
@@ -79,7 +80,7 @@ int main(int ac, char **av)
 		ft_printf("FATAL ERROR NULL ARG LST\n");
 /*	test_linked(*args_lst);
 */	ft_printf("calling inner ls:\n********************\n");
-	
+	stat_fn = lstat;	
 	t_file_lst *tmp;
 	tmp = *args_lst;
 	while (tmp != NULL)

@@ -14,7 +14,7 @@
 
 static void	init_fnptr(void)
 {
-	stat_fn = lstat;
+	stat_fn = stat;
 	format_fn = reg_format;
 	add_fn = add_node;
 	sort_fn = cmplex;
@@ -49,7 +49,7 @@ int	ft_parseopt(int ac, char **av, int *Recursive)
 			*Recursive = 1;
 		else if (chr == 'l')
 		{
-			stat_fn = stat;
+			stat_fn = lstat;
 			format_fn = long_format;
 		}
 		else if (chr == 'a')

@@ -11,15 +11,26 @@
 /* ************************************************************************** */
 
 #include "../ft_ls.h"
-
+/* old init struct
 int	init_struct(t_file_lst *tmp, char *name)
 {
 	
 	if (ft_strlen(name) > 4096)
 		return (-1);
-
 	ft_strncpy(tmp->full_path, name, ft_strlen(name));
 	tmp->path_size = ft_strlen(name);
+	return (1);
+}
+*/
+
+
+
+int	init_struct(t_file_lst *tmp, char *name)
+{
+	
+	ft_strncpy(tmp->full_path, name, ft_strlen(name));
+	tmp->path_size = ft_strlen(name);
+	tmp->long_format = NULL;
 	return (1);
 }
 
@@ -65,6 +76,11 @@ t_file_lst *handle_av(char **av)
 				add_all(&file_lst, tmp) ;	
 		}
 		optind++;
+	}
+	
+	if (format_fn == long_format)
+	{
+		fill_lf_info(file_lst);
 	}
 	append_lst(&file_lst, dir_lst);
 	return (file_lst);

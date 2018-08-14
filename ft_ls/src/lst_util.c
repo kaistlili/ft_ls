@@ -46,8 +46,10 @@ t_file_lst	*new_node(char *path) /* path is useless here*/
 	ft_bzero(tmp->name,255);
 	return (tmp);
 }
-/* ../ not working we have to figure out why*/
+/*
+	we need to handle links when -l is specified here
 
+*/
 t_file_lst	*new_file_node(char *path)
 {
 	t_file_lst	*tmp;
@@ -56,15 +58,15 @@ t_file_lst	*new_file_node(char *path)
 	tmp = new_node(path);
 	if (tmp == NULL)
 		return (NULL);
-	if (init_struct(tmp, path) == -1)
-		ft_printf("path too big\n");
-	ret = stat_fn(tmp->full_path, &(tmp->data));
+	ret = stat_fn(path, &(tmp->data));
 	if (ret < 0)
 	{
 		delete_node(tmp);
 		perror(path);
 		return (NULL);
-	}
+	}	
+	if (init_struct(tmp, path) == -1)
+		ft_printf("path too big\n");
 	return (tmp);
 }
 
@@ -72,6 +74,8 @@ t_file_lst	*new_file_node(char *path)
 
 void	delete_node(t_file_lst *to_delete)
 {
+	if (to_delete->long_format != NULL)
+		free(to_delete->long_format);
 	free(to_delete);
 }
 
@@ -149,6 +153,8 @@ void	destroy_lst(t_file_lst *head)
 	tmp = head;
 	while(head != NULL)
 	{
+		if (head->long_format != NULL)
+			free(head->long_format);
 		tmp = head->next;
 		free(head);
 		head = tmp;

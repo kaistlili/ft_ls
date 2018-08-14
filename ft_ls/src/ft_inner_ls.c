@@ -94,6 +94,8 @@ t_file_lst	*explore_dir(t_file_lst *to_explore)
 		ft_strncpy(tmp->name, entry->d_name, ft_strlen(entry->d_name));
 		add_fn(&file_lst, tmp);
 	}
+	if (format_fn == long_format)
+		fill_lf_info(file_lst);
 	closedir(dirp);
 	return (file_lst);
 }

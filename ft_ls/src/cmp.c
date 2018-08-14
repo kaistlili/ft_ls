@@ -41,5 +41,11 @@ void	reg_format(t_file_lst *to_print)
 
 void	long_format(t_file_lst *to_print)
 {
-
+//	ft_printf("%s\n", to_print->long_format->user);
+	
+	ft_printf("%s %s %s %s %s %s\n", to_print->long_format->links,
+		 to_print->long_format->user, to_print->long_format->group, 
+			to_print->long_format->size, to_print->long_format->datetime, to_print->name);
+//	ft_printf("|lpad %d upad %d gpad %d spad %d \n", to_print->long_format->padding.links_pad, to_print->long_format->padding.user_pad, to_print->long_format->padding.group_pad, to_print->long_format->padding.size_pad);
 }
+
