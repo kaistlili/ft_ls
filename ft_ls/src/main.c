@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 01:45:01 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/20 14:50:39 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/20 14:54:52 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 	1- add readlink to init struct when stat is specified. | done
 	2- verify buffer overflows on path and name. | not
 	3- verify error handling.
-
-
 */
 
 

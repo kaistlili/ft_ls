@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 14:04:24 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/20 14:15:52 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/20 15:23:51 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	ft_getperm(mode_t mode, char perm[12])
 		else
 			perm[3] = '-';
 	}
+	group_perm(mode, perm);
+	other_perm(mode, perm);
 }
 
 int	fill_usergroup(t_file_lst *file)
@@ -142,4 +144,5 @@ int	fill_lf_info(t_file_lst	*start)
 		start = start->next;
 	}
 	fill_padding(tmp, padding);
+	return (0);
 }

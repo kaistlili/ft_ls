@@ -6,7 +6,7 @@
 #    By: ktlili <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/10 23:32:37 by ktlili            #+#    #+#              #
-#    Updated: 2018/08/20 13:06:11 by ktlili           ###   ########.fr        #
+#    Updated: 2018/08/20 15:24:59 by ktlili           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRC_NAME =	main.c \
 		   	ft_getopt.c \
 			formatting.c \
 			cmp.c \
+			formatting_util.c
 
 OBJ_PATH = obj
 

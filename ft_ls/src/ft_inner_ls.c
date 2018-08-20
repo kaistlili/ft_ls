@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/07 22:03:29 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/20 13:57:11 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/20 14:58:18 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ t_file_lst	*explore_dir(t_file_lst *to_explore)
 		}	
 		ft_strncpy(tmp->name, entry->d_name, ft_strlen(entry->d_name));
 		add_fn(&file_lst, tmp);
-	}
+	}	
+	closedir(dirp);
 	if (format_fn == long_format)
 		fill_lf_info(file_lst);
-	closedir(dirp);
 	return (file_lst);
 }
 
@@ -111,7 +111,7 @@ int	ft_inner_ls(t_file_lst *current, int Recursive)
 	curr_dir = explore_dir(current); /* open read close dir
 											then return sorted linked list*/
 	iter = curr_dir;
-	if (format_fn == long_format)
+	if ((format_fn == long_format) && (iter != NULL))
 		print_totblk(iter);
 	while (iter != NULL)
 	{
