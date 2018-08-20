@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/07 22:03:29 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/09 13:56:59 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/20 13:57:11 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,6 @@ void	construct_path(char *parent, char *sub_name, char *buff)
 		ft_strncpy(&buff[len+1], sub_name, ft_strlen(sub_name));
 	}
 }
-/*
-void	construct_path(char *parent, char *sub_name, char *buff)
-{
-	int len;
-
-	ft_bzero(buff, 4096);
-	len = ft_strlen(parent);
-	ft_strncpy(buff, parent, len);
-	if ((!ft_strncmp(parent,"/",1)) && (len == 1))
-		len--;
-	else
-		buff[len] = '/';
-	ft_strncpy(&buff[len+1], sub_name, ft_strlen(sub_name));
-
-//	ft_printf("constructing %s| %s|got:%s\n",parent,sub_name,buff);
-}*/
 
 t_file_lst	*explore_dir(t_file_lst *to_explore)
 {	
@@ -100,6 +84,19 @@ t_file_lst	*explore_dir(t_file_lst *to_explore)
 	return (file_lst);
 }
 
+void	print_totblk(t_file_lst *curr_dir)
+{
+	blkcnt_t blocks;
+
+	blocks = 0;
+	while (curr_dir != NULL)
+	{
+		blocks = curr_dir->data.st_blocks + blocks;
+		curr_dir = curr_dir->next;
+	}
+	ft_printf("total %lu\n", blocks);
+}
+
 int	ft_inner_ls(t_file_lst *current, int Recursive)
 {
 	t_file_lst *curr_dir;
@@ -114,6 +111,8 @@ int	ft_inner_ls(t_file_lst *current, int Recursive)
 	curr_dir = explore_dir(current); /* open read close dir
 											then return sorted linked list*/
 	iter = curr_dir;
+	if (format_fn == long_format)
+		print_totblk(iter);
 	while (iter != NULL)
 	{
 		format_fn(iter);

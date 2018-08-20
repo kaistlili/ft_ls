@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/04 18:23:18 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/08 00:38:21 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/20 13:52:32 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <dirent.h>
-//#include <sys/dirent.h>
+#include <sys/dirent.h>
 #include "libft.h"
 #include "ft_printf.h"
 
@@ -98,4 +98,4 @@ void	parse_test(void);
 void	destroy_lst(t_file_lst *head);
 //long_format functions
 int	fill_lf_info(t_file_lst	*start);
-
+void	ft_getperm(mode_t mode, char perm[12]);

@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/07 00:45:40 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/09 13:28:13 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/20 14:21:10 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,23 @@ void	reg_format(t_file_lst *to_print)
 
 void	long_format(t_file_lst *to_print)
 {
-//	ft_printf("%s\n", to_print->long_format->user);
-	
-	ft_printf("%s %s %s %s %s %s\n", to_print->long_format->links,
+	char perm[12];
+	char link[4096];
+
+	ft_bzero(perm, 12);
+	ft_bzero(link, 4096);
+	ft_getperm(to_print->data.st_mode, perm);
+	ft_printf("%s ", perm);	
+	ft_printf("%s %s %s %s %s %s", to_print->long_format->links,
 		 to_print->long_format->user, to_print->long_format->group, 
-			to_print->long_format->size, to_print->long_format->datetime, to_print->name);
+			to_print->long_format->size, to_print->long_format->datetime,
+		   		to_print->name);
+	if (S_ISLNK(to_print->data.st_mode))
+	{
+		if (readlink(to_print->full_path, link, 4096) != -1)
+			ft_printf(" -> %s", link);
+	}
+	write(1,"\n",1);
 //	ft_printf("|lpad %d upad %d gpad %d spad %d \n", to_print->long_format->padding.links_pad, to_print->long_format->padding.user_pad, to_print->long_format->padding.group_pad, to_print->long_format->padding.size_pad);
 }
 

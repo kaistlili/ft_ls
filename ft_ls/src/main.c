@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 01:45:01 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/09 13:49:44 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/20 14:50:39 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 /*
 
 	to do:
-	1- add readlink to init struct when stat is specified.
-	2- verify buffer overflows on path and name.
+	1- add readlink to init struct when stat is specified. | done
+	2- verify buffer overflows on path and name. | not
 	3- verify error handling.
-	4- when dir permission denied, we should't print 'dirname:'	before it
 
 
 */
@@ -52,19 +51,14 @@ void	parse_test(void)
 	ft_printf("\n-----------------\n");
 }
 
-/*	printf struct->full_path only when more than 1 arg passed 
-
-*/
-
-
 int main(int ac, char **av)
 {
 	t_file_lst	**args_lst;
-	t_file_lst	**head;
-	int			Recursive;
-	int			i;
+/*	t_file_lst	**head;
+*/	int			Recursive;
+	int			onenode;
+	t_file_lst *tmp;
 
-	i = 1;
 	Recursive = 0;
 	ft_parseopt(ac, av, &Recursive);	
 	parse_test();
@@ -81,15 +75,16 @@ int main(int ac, char **av)
 /*	test_linked(*args_lst);
 */	ft_printf("calling inner ls:\n********************\n");
 	stat_fn = lstat;	
-	t_file_lst *tmp;
 	tmp = *args_lst;
+	onenode = 0;
+	if ((tmp->next == NULL) && (S_ISDIR(tmp->data.st_mode)))
+		onenode = 1;
 	while (tmp != NULL)
 	{
-		if ((S_ISDIR(tmp->data.st_mode) && (i != 1)))
+		if ((!onenode) && (S_ISDIR(tmp->data.st_mode)))
 			ft_printf("\n%s:\n", tmp->name);
 		ft_inner_ls(tmp, Recursive);
 		tmp = tmp->next;
-		i++;
 	}
 	destroy_lst(*args_lst);
 	free(args_lst);

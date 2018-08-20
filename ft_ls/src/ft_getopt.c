@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/06 18:03:23 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/06 20:17:45 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/20 13:45:00 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	ft_getopt(int argc, char *const argv[], const char *optstring)
 	static int	init = 1;
 	int ret;
 
+	(void)argc;
 	if (init)
 	{
 		optind = 1;

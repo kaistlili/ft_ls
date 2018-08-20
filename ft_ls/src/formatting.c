@@ -1,6 +1,43 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   formatting.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/20 14:04:24 by ktlili            #+#    #+#             */
+/*   Updated: 2018/08/20 14:15:52 by ktlili           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /* we call this function at the end of handle_av
 and after explore dir*/
 #include "../ft_ls.h"
+
+
+void	ft_getperm(mode_t mode, char perm[12])
+{	
+	ft_strncpy(perm,"----------",10);
+	perm[0] = ft_filetype(mode);
+	if (S_IRUSR & mode)
+		perm[1] = 'r';
+	if (S_IWUSR & mode)
+		perm[2] = 'w';
+	if (S_IXUSR & mode)
+	{
+		if (S_ISUID & mode)
+			perm[3] = 's';
+		else
+			perm[3] = 'x';
+	}
+	else
+	{
+		if (S_ISUID & mode)
+			perm[3] = 'S';
+		else
+			perm[3] = '-';
+	}
+}
 
 int	fill_usergroup(t_file_lst *file)
 {
@@ -23,19 +60,6 @@ int	fill_usergroup(t_file_lst *file)
 	return (0);
 }
 
-/*
-void	fill_padding(t_file_lst *start, t_padd padding)
-{
-	while (start != NULL)
-	{
-		start->long_format->padding.links_pad = padding.links_pad;
-		start->long_format->padding.user_pad = padding.user_pad;
-		start->long_format->padding.group_pad = padding.group_pad;
-		start->long_format->padding.size_pad = padding.size_pad;
-		start = start->next;
-	}
-}
-*/
 void	apply_padding(char dest[32], int padding, int rev)
 {
 	int len;
