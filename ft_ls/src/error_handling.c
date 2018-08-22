@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 15:48:41 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/22 20:16:48 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/22 20:31:41 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,14 @@ void	print_lst(t_err_lst *err_lst)
 	{
 		ft_printf("ft_ls: %s: %s\n", tmp->full_path, tmp->error);
 		tmp = tmp->next;
+	}
+	tmp = err_lst;
+	while (err_lst != NULL)
+	{
+		free(err_lst->error);
+		tmp = err_lst->next;
+		free(err_lst);
+		err_lst = tmp;	
 	}
 }
 

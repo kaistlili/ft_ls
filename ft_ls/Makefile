@@ -6,7 +6,7 @@
 #    By: ktlili <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/10 23:32:37 by ktlili            #+#    #+#              #
-#    Updated: 2018/08/20 15:24:59 by ktlili           ###   ########.fr        #
+#    Updated: 2018/08/22 19:15:36 by ktlili           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SRC_NAME =	main.c \
 		   	ft_getopt.c \
 			formatting.c \
 			cmp.c \
-			formatting_util.c
+			formatting_util.c \
+			error_handling.c			
 
 OBJ_PATH = obj
 
@@ -32,7 +33,7 @@ OBJ_NAME = $(SRC_NAME:.c=.o)
 
 LIB = ./libftprintf.a
 
-FLAGS = 
+FLAGS = -g
 
 SRC = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
 
