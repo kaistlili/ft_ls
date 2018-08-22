@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 14:04:24 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/20 15:23:51 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/22 16:43:56 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,7 @@
 and after explore dir*/
 #include "../ft_ls.h"
 
-
-void	ft_getperm(mode_t mode, char perm[12])
-{	
-	ft_strncpy(perm,"----------",10);
-	perm[0] = ft_filetype(mode);
-	if (S_IRUSR & mode)
-		perm[1] = 'r';
-	if (S_IWUSR & mode)
-		perm[2] = 'w';
-	if (S_IXUSR & mode)
-	{
-		if (S_ISUID & mode)
-			perm[3] = 's';
-		else
-			perm[3] = 'x';
-	}
-	else
-	{
-		if (S_ISUID & mode)
-			perm[3] = 'S';
-		else
-			perm[3] = '-';
-	}
-	group_perm(mode, perm);
-	other_perm(mode, perm);
-}
-
-int	fill_usergroup(t_file_lst *file)
+int	fill_usergroup(t_file_lst *file) /* utoa user/grp id if unknown*/
 {
 	struct	passwd	*spwd;
 	struct	group	*sgrp;
@@ -123,6 +96,16 @@ void test_padding(t_padd padding)
 		padding.links_pad, padding.user_pad, padding.group_pad, padding.size_pad);
 }
 
+void	major_minor(dev_t dev, char size[32])
+{
+	int wrote;
+
+	wrote = ft_utoa_base(major(dev), 10, size, 1);
+	size[wrote] = ',';
+	wrote++;
+	ft_utoa_base(minor(dev), 10, &size[wrote], 1);
+}
+
 int	fill_lf_info(t_file_lst	*start) 
 {
 	t_file_lst	*tmp;
@@ -134,10 +117,17 @@ int	fill_lf_info(t_file_lst	*start)
 	{
 		start->long_format = malloc(sizeof(t_long_f));
 		if (start->long_format == NULL)
+		{
+			//malloc error exit
 			return (-1);	
+		}
 		ft_bzero(start->long_format, sizeof(t_long_f));
-		ft_utoa_base(start->data.st_size, 10, start->long_format->size, 1); 
 		ft_utoa_base(start->data.st_nlink, 10, start->long_format->links, 1);
+		if ((S_ISBLK(start->data.st_mode)) 
+			|| (S_ISCHR(start->data.st_mode)))
+			major_minor(start->data.st_rdev, start->long_format->size);
+		else
+			ft_utoa_base(start->data.st_size, 10, start->long_format->size, 1); 
 		fill_usergroup(start);
 		fill_date(start);
 		update_padd(&padding, start->long_format);

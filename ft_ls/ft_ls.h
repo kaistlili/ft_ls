@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/04 18:23:18 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/20 15:24:41 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/22 19:07:24 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,12 @@ typedef struct s_file_lst
 }				t_file_lst;
 
 
+typedef	struct	s_err_lst
+{
+	char				full_path[4096];
+	char				*error;
+	struct	s_err_lst	*next;
+}				t_err_lst;
 
 typedef	 void	(*format_ptr)(t_file_lst*);
 typedef	int		(*sort_ptr)(t_file_lst*, t_file_lst*);
@@ -101,3 +107,4 @@ int		fill_lf_info(t_file_lst	*start);
 void	ft_getperm(mode_t mode, char perm[12]);
 void	group_perm(mode_t mode, char perm[12]);
 void	other_perm(mode_t mode, char per[12]);
+void	arg_errors(char *path);

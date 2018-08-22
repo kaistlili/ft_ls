@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/07 00:45:40 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/20 14:57:02 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/22 18:59:37 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@ int		cmplex_r(t_file_lst *chain, t_file_lst *to_add)
 		return(1); /*insert here */
 	return (0);
 }
+
 int		cmpt(t_file_lst *chain, t_file_lst *to_add)
 {
 	return (1);
 }
+
 int		cmpt_r(t_file_lst *chain, t_file_lst *to_add)
 {
 	return (1);
@@ -47,8 +49,8 @@ void	long_format(t_file_lst *to_print)
 	ft_bzero(perm, 12);
 	ft_bzero(link, 4096);
 	ft_getperm(to_print->data.st_mode, perm);
-	ft_printf("%s ", perm);	
-	ft_printf("%s %s %s %s %s %s", to_print->long_format->links,
+	ft_printf("%s  ", perm);	
+	ft_printf("%s %s  %s  %s %s %s", to_print->long_format->links,
 		 to_print->long_format->user, to_print->long_format->group, 
 			to_print->long_format->size, to_print->long_format->datetime,
 		   		to_print->name);

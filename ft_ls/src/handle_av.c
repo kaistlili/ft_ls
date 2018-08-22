@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 01:49:09 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/08 00:38:59 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/22 19:08:44 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,7 @@ t_file_lst *handle_av(char **av)
 	{
 		
 		tmp = new_file_node(av[optind]);		
-		if (tmp == NULL)
-			return (NULL);	
-		else
+		if (tmp != NULL)
 		{	
 			ft_validate_input(tmp->full_path);
 			ft_strncpy(tmp->name, tmp->full_path,ft_strlen(av[optind]));
@@ -82,6 +80,7 @@ t_file_lst *handle_av(char **av)
 	{
 		fill_lf_info(file_lst);
 	}
+	arg_errors(NULL);
 	append_lst(&file_lst, dir_lst);
 	return (file_lst);
 }

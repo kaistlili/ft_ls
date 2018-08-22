@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 01:45:01 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/20 14:54:52 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/22 20:18:18 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int main(int ac, char **av)
 	stat_fn = lstat;	
 	tmp = *args_lst;
 	onenode = 0;
-	if ((tmp->next == NULL) && (S_ISDIR(tmp->data.st_mode)))
+	if ((tmp != NULL) && (tmp->next == NULL) && (S_ISDIR(tmp->data.st_mode)))
 		onenode = 1;
 	while (tmp != NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/04 18:33:44 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/09 13:25:51 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/22 18:59:23 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,11 @@ t_file_lst	*new_node(char *path) /* path is useless here*/
 	tmp = malloc(sizeof(t_file_lst));
 	if (tmp == NULL)
 	{
-		free(tmp);
+		/*malloc error exit */
 		return (NULL);
 	}
 	tmp->next = NULL;
-	ft_bzero(tmp->full_path,4096);
-	ft_bzero(tmp->name,255);
+	ft_bzero(tmp, sizeof (t_file_lst));
 	return (tmp);
 }
 /*
@@ -62,7 +61,7 @@ t_file_lst	*new_file_node(char *path)
 	if (ret < 0)
 	{
 		delete_node(tmp);
-		perror(path);
+		arg_errors(path);
 		return (NULL);
 	}	
 	if (init_struct(tmp, path) == -1)
