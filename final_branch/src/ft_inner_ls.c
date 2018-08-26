@@ -79,7 +79,7 @@ t_file_lst	*explore_dir(t_file_lst *to_explore)
 	dirp = opendir(to_explore->full_path);
 	if (dirp == NULL)
 	{
-		ft_printf("ft_ls: %s: %s\n",to_explore->full_path,strerror(errno));
+		ft_printf("ft_ls: %s: %s\n", to_explore->full_path, strerror(errno));
 		return (NULL);	
 	}
 	readdirloop(dirp, to_explore, &file_lst);
@@ -94,6 +94,11 @@ void	print_totblk(t_file_lst *curr_dir)
 	blkcnt_t blocks;
 
 	blocks = 0;
+	if (curr_dir == NULL)
+	{
+		ft_printf("total %lu\n", blocks);
+		return;
+	}
 	while (curr_dir != NULL)
 	{
 		blocks = curr_dir->data.st_blocks + blocks;
@@ -104,7 +109,7 @@ void	print_totblk(t_file_lst *curr_dir)
 
 static	void	formatfn_dir(t_file_lst *iter)
 {
-	if ((format_fn == long_format) && (iter != NULL))
+	if ((format_fn == long_format))
 		print_totblk(iter);
 	while (iter != NULL)
 	{
