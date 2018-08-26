@@ -48,15 +48,8 @@ static	void	set_fnptr(t_options opts)
 		sort_fn = cmplex_r;
 }	
 
-int	ft_parseopt(int ac, char **av, int *Recursive)
+void	dispatcher(char chr, int *Recursive, t_options *opts)
 {
-	char	chr;
-	t_options opts;
-
-	ft_bzero(&opts, sizeof(t_options));
-	init_fnptr();
-	while ((chr = ft_getopt(ac, av, "1RaltrfSA")) != -1)
-	{
 		if (chr == 'R')
 			*Recursive = 1;
 		else if (chr == 'l')
@@ -67,21 +60,31 @@ int	ft_parseopt(int ac, char **av, int *Recursive)
 		else if ((chr == 'A') && (add_fn != add_all))
 			add_fn = add_A;
 		else if (chr == 'S')
-			opts.size_s = 1;
+			opts->size_s = 1;
 		else if (chr == 'a')
 			add_fn = add_all;
 		else if (chr == 'r')
-			opts.rev_s = 1;
+			opts->rev_s = 1;
 		else if (chr == 't')
-			opts.time_s = 1;
+			opts->time_s = 1;
 		else if (chr == 'f')
-			opts.nosort = 1;
+			opts->nosort = 1;
 		else if (chr == '?')
 		{
 			ft_printf("usage: ft_ls [-lRartfS]\n");
 			exit(1);
 		}
-	}
+}
+
+int	ft_parseopt(int ac, char **av, int *Recursive)
+{
+	char	chr;
+	t_options opts;
+
+	ft_bzero(&opts, sizeof(t_options));
+	init_fnptr();
+	while ((chr = ft_getopt(ac, av, "1RaltrfSA")) != -1)
+		dispatcher(chr, Recursive, &opts);
 	set_fnptr(opts);
 	return (1);
 }
