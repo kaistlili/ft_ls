@@ -6,20 +6,9 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 01:45:01 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/25 22:08:41 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/26 20:24:44 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
-/*
-
-	to do:
-	1- add readlink to init struct when stat is specified. | done
-	2- verify buffer overflows on path and name. | not
-	3- verify error handling.
-*/
-
-
 
 #include "../ft_ls.h"
 
@@ -28,44 +17,28 @@ sort_ptr	sort_fn;
 add_ptr		add_fn;
 stat_ptr	stat_fn;
 
-void	parse_test(void)
+void	init_args_lst(char **av, t_file_lst **args_lst)
 {
-	if (stat_fn == stat)
-		ft_printf("stat is set\n");
-	else if (stat_fn == lstat)
-		ft_printf("lstat is set\n");
-	if (format_fn == reg_format)
-		ft_printf("reg format is set\n");
-	else if (format_fn == long_format)
-		ft_printf("long format is set\n");
-	if (add_fn == add_node)
-		ft_printf("excluding . ..\n");
-	else if (add_fn == add_all)
-		ft_printf("including. ..\n");
-	if (sort_fn == cmplex)
-		ft_printf("sorting lexico normal\n");
+	if (av[optind] == NULL)
+		new_file_node(".", args_lst);
 	else
-		ft_printf("other sort function\n");
-	ft_printf("\n-----------------\n");
+		*args_lst = handle_av(av);
+	stat_fn = lstat;
 }
 
-int main(int ac, char **av)
+int		main(int ac, char **av)
 {
 	t_file_lst	**args_lst;
 	int			Recursive;
 	int			onenode;
-	t_file_lst *tmp;
+	t_file_lst	*tmp;
 
 	Recursive = 0;
-	ft_parseopt(ac, av, &Recursive);	
+	ft_parseopt(ac, av, &Recursive);
 	args_lst = malloc(sizeof(t_file_lst*));
 	if (args_lst == NULL)
 		return (-1);
-	if (av[optind] == NULL)
-		new_file_node(".",args_lst);
-	else
-		*args_lst = handle_av(av);
-	stat_fn = lstat;	
+	init_args_lst(av, args_lst);
 	tmp = *args_lst;
 	onenode = 0;
 	if ((tmp != NULL) && (tmp->next == NULL) && (S_ISDIR(tmp->data.st_mode)))
@@ -79,5 +52,5 @@ int main(int ac, char **av)
 	}
 	destroy_lst(*args_lst);
 	free(args_lst);
-	return(ret_var(0)); 
+	return (ret_var(0));
 }

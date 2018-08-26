@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/07 22:03:29 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/25 22:05:06 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/26 19:25:20 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	print_totblk(t_file_lst *curr_dir)
 
 static	void	formatfn_dir(t_file_lst *iter)
 {
-	if ((format_fn == long_format))
+	if (format_fn == long_format)
 		print_totblk(iter);
 	while (iter != NULL)
 	{

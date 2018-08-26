@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/07 00:45:40 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/25 19:46:11 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/26 20:16:05 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	reg_format(t_file_lst *to_print)
 {
 	ft_printf("%s\n",to_print->name);
 }
-
 void	long_format(t_file_lst *to_print)
 {
 	char perm[12];
@@ -95,6 +94,5 @@ void	long_format(t_file_lst *to_print)
 			ft_printf(" -> %s", link);
 	}
 	write(1,"\n",1);
-//	ft_printf("|lpad %d upad %d gpad %d spad %d \n", to_print->long_format->padding.links_pad, to_print->long_format->padding.user_pad, to_print->long_format->padding.group_pad, to_print->long_format->padding.size_pad);
 }
 
