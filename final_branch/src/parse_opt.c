@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/04 18:28:52 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/26 20:31:37 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/26 21:19:29 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,55 +14,55 @@
 
 static void		init_fnptr(void)
 {
-	stat_fn = stat;
-	format_fn = reg_format;
-	add_fn = add_node;
-	sort_fn = cmplex;
+	g_stat_fn = stat;
+	g_format_fn = reg_format;
+	g_add_fn = add_node;
+	g_sort_fn = cmplex;
 }
 
 static	void	set_fnptr(t_options opts)
 {
 	if (opts.nosort)
 	{
-		add_fn = add_all;
-		sort_fn = cmpvoid;
+		g_add_fn = add_all;
+		g_sort_fn = cmpvoid;
 		return ;
 	}
 	if (opts.size_s)
 	{
 		if (opts.rev_s)
-			sort_fn = cmpsize_r;
+			g_sort_fn = cmpsize_r;
 		else
-			sort_fn = cmpsize;
+			g_sort_fn = cmpsize;
 		return ;
 	}
 	if (opts.time_s)
 	{
 		if (opts.rev_s)
-			sort_fn = cmpt_r;
+			g_sort_fn = cmpt_r;
 		else
-			sort_fn = cmpt;
+			g_sort_fn = cmpt;
 		return ;
 	}
 	else if (opts.rev_s)
-		sort_fn = cmplex_r;
+		g_sort_fn = cmplex_r;
 }
 
-static	void	dispatcher(char chr, int *Recursive, t_options *opts)
+static	void	dispatcher(char chr, int *recursive, t_options *opts)
 {
 	if (chr == 'R')
-		*Recursive = 1;
+		*recursive = 1;
 	else if (chr == 'l')
 	{
-		stat_fn = lstat;
-		format_fn = long_format;
+		g_stat_fn = lstat;
+		g_format_fn = long_format;
 	}
-	else if ((chr == 'A') && (add_fn != add_all))
-		add_fn = add_A;
+	else if ((chr == 'A') && (g_add_fn != add_all))
+		g_add_fn = add_cap_a;
 	else if (chr == 'S')
 		opts->size_s = 1;
 	else if (chr == 'a')
-		add_fn = add_all;
+		g_add_fn = add_all;
 	else if (chr == 'r')
 		opts->rev_s = 1;
 	else if (chr == 't')
@@ -76,7 +76,7 @@ static	void	dispatcher(char chr, int *Recursive, t_options *opts)
 	}
 }
 
-int				ft_parseopt(int ac, char **av, int *Recursive)
+int				ft_parseopt(int ac, char **av, int *recursive)
 {
 	char		chr;
 	t_options	opts;
@@ -84,7 +84,7 @@ int				ft_parseopt(int ac, char **av, int *Recursive)
 	ft_bzero(&opts, sizeof(t_options));
 	init_fnptr();
 	while ((chr = ft_getopt(ac, av, "1RaltrfSA")) != -1)
-		dispatcher(chr, Recursive, &opts);
+		dispatcher(chr, recursive, &opts);
 	set_fnptr(opts);
 	return (1);
 }

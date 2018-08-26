@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 15:15:14 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/22 15:56:26 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/26 21:52:43 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ void	user_perm(mode_t mode, char perm[12])
 }
 
 void	ft_getperm(mode_t mode, char perm[12])
-{	
-	ft_strncpy(perm,"----------",10);
+{
+	ft_strncpy(perm, "----------", 10);
 	perm[0] = ft_filetype(mode);
 	user_perm(mode, perm);
 	group_perm(mode, perm);

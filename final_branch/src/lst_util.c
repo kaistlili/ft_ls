@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/04 18:33:44 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/26 20:38:03 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/26 21:22:54 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		new_file_node(char *path, t_file_lst **new)
 	*new = new_node();
 	if (*new == NULL)
 		return (errno);
-	ret = stat_fn(path, &((*new)->data));
+	ret = g_stat_fn(path, &((*new)->data));
 	if ((ret < 0) && (errno == 62))
 		ret = lstat(path, &(*new)->data);
 	if (ret < 0)
@@ -93,7 +93,7 @@ void	append_lst(t_file_lst **append_to, t_file_lst *to_append)
 	iter->next = to_append;
 }
 
-void	add_A(t_file_lst **head, t_file_lst *to_add)
+void	add_cap_a(t_file_lst **head, t_file_lst *to_add)
 {
 	t_file_lst *tmp;
 
@@ -104,7 +104,7 @@ void	add_A(t_file_lst **head, t_file_lst *to_add)
 		delete_node(to_add);
 		return ;
 	}
-	if ((*head == NULL) || (sort_fn(*head, to_add)))
+	if ((*head == NULL) || (g_sort_fn(*head, to_add)))
 	{
 		to_add->next = *head;
 		*head = to_add;
@@ -112,7 +112,7 @@ void	add_A(t_file_lst **head, t_file_lst *to_add)
 	else
 	{
 		tmp = *head;
-		while ((tmp->next != NULL) && (!sort_fn(tmp->next, to_add)))
+		while ((tmp->next != NULL) && (!g_sort_fn(tmp->next, to_add)))
 		{
 			tmp = tmp->next;
 		}
@@ -132,7 +132,7 @@ void	add_node(t_file_lst **head, t_file_lst *to_add)
 		delete_node(to_add);
 		return ;
 	}
-	if ((*head == NULL) || (sort_fn(*head, to_add)))
+	if ((*head == NULL) || (g_sort_fn(*head, to_add)))
 	{
 		to_add->next = *head;
 		*head = to_add;
@@ -140,7 +140,7 @@ void	add_node(t_file_lst **head, t_file_lst *to_add)
 	else
 	{
 		tmp = *head;
-		while ((tmp->next != NULL) && (!sort_fn(tmp->next, to_add)))
+		while ((tmp->next != NULL) && (!g_sort_fn(tmp->next, to_add)))
 		{
 			tmp = tmp->next;
 		}
@@ -153,7 +153,7 @@ void	add_all(t_file_lst **head, t_file_lst *to_add)
 {
 	t_file_lst *tmp;
 
-	if ((*head == NULL) || (sort_fn(*head, to_add)))
+	if ((*head == NULL) || (g_sort_fn(*head, to_add)))
 	{
 		to_add->next = *head;
 		*head = to_add;
@@ -161,7 +161,7 @@ void	add_all(t_file_lst **head, t_file_lst *to_add)
 	else
 	{
 		tmp = *head;
-		while ((tmp->next != NULL) && (!sort_fn(tmp->next, to_add)))
+		while ((tmp->next != NULL) && (!g_sort_fn(tmp->next, to_add)))
 		{
 			tmp = tmp->next;
 		}

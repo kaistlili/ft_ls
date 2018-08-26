@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 01:49:09 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/26 20:29:44 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/26 21:50:24 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,22 @@ t_file_lst	*handle_av(char **av)
 
 	file_lst = NULL;
 	dir_lst = NULL;
-	while (av[optind] != NULL)
+	while (av[g_optind] != NULL)
 	{
-		ft_validate_input(av[optind]);
-		if (new_file_node(av[optind], &tmp) == 0)
+		ft_validate_input(av[g_optind]);
+		if (new_file_node(av[g_optind], &tmp) == 0)
 		{
-			ft_strncpy(tmp->name, tmp->full_path, ft_strlen(av[optind]));
+			ft_strncpy(tmp->name, tmp->full_path, ft_strlen(av[g_optind]));
 			if (ft_filetype(tmp->data.st_mode) == 'd')
 				add_all(&dir_lst, tmp);
 			else
 				add_all(&file_lst, tmp);
 		}
 		else
-			arg_errors(av[optind]);
-		optind++;
+			arg_errors(av[g_optind]);
+		g_optind++;
 	}
-	if (format_fn == long_format)
+	if (g_format_fn == long_format)
 		fill_lf_info(file_lst);
 	arg_errors(NULL);
 	append_lst(&file_lst, dir_lst);

@@ -6,35 +6,36 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 01:45:01 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/26 20:24:44 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/26 21:15:43 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_ls.h"
 
-format_ptr	format_fn;
-sort_ptr	sort_fn;
-add_ptr		add_fn;
-stat_ptr	stat_fn;
+format_ptr	g_format_fn;
+sort_ptr	g_sort_fn;
+add_ptr		g_add_fn;
+stat_ptr	g_stat_fn;
+int			g_optind;
 
 void	init_args_lst(char **av, t_file_lst **args_lst)
 {
-	if (av[optind] == NULL)
+	if (av[g_optind] == NULL)
 		new_file_node(".", args_lst);
 	else
 		*args_lst = handle_av(av);
-	stat_fn = lstat;
+	g_stat_fn = lstat;
 }
 
 int		main(int ac, char **av)
 {
 	t_file_lst	**args_lst;
-	int			Recursive;
+	int			recursive;
 	int			onenode;
 	t_file_lst	*tmp;
 
-	Recursive = 0;
-	ft_parseopt(ac, av, &Recursive);
+	recursive = 0;
+	ft_parseopt(ac, av, &recursive);
 	args_lst = malloc(sizeof(t_file_lst*));
 	if (args_lst == NULL)
 		return (-1);
@@ -47,7 +48,7 @@ int		main(int ac, char **av)
 	{
 		if ((!onenode) && (S_ISDIR(tmp->data.st_mode)))
 			ft_printf("\n%s:\n", tmp->name);
-		ft_inner_ls(tmp, Recursive);
+		ft_inner_ls(tmp, recursive);
 		tmp = tmp->next;
 	}
 	destroy_lst(*args_lst);
