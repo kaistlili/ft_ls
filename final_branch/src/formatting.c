@@ -103,6 +103,8 @@ void	major_minor(dev_t dev, char size[32])
 	wrote = ft_utoa_base(major(dev), 10, size, 1);
 	size[wrote] = ',';
 	wrote++;
+	size[wrote] = ' ';
+	wrote++;
 	ft_utoa_base(minor(dev), 10, &size[wrote], 1);
 }
 
