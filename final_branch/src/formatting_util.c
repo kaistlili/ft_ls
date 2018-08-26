@@ -6,13 +6,13 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 15:15:14 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/26 21:52:43 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/27 01:20:50 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_ls.h"
 
-void	group_perm(mode_t mode, char perm[12])
+static void	group_perm(mode_t mode, char perm[12])
 {
 	if (S_IRGRP & mode)
 		perm[4] = 'r';
@@ -32,7 +32,7 @@ void	group_perm(mode_t mode, char perm[12])
 	}
 }
 
-void	other_perm(mode_t mode, char perm[12])
+static void	other_perm(mode_t mode, char perm[12])
 {
 	if (S_IROTH & mode)
 		perm[7] = 'r';
@@ -52,7 +52,7 @@ void	other_perm(mode_t mode, char perm[12])
 	}
 }
 
-void	user_perm(mode_t mode, char perm[12])
+static void	user_perm(mode_t mode, char perm[12])
 {
 	if (S_IRUSR & mode)
 		perm[1] = 'r';
@@ -74,9 +74,25 @@ void	user_perm(mode_t mode, char perm[12])
 	}
 }
 
-void	ft_getperm(mode_t mode, char perm[12])
+void		acl_xattr(t_file_lst *to_print, char *perm)
 {
-	ft_strncpy(perm, "----------", 10);
+	ssize_t ret;
+	acl_t	acl;
+
+	acl = acl_get_file(to_print->full_path, ACL_TYPE_EXTENDED);
+	if (acl != NULL)
+	{
+		acl_free(acl);
+		*perm = '+';
+	}
+	ret = listxattr(to_print->full_path, NULL, 0, XATTR_NOFOLLOW);
+	if (ret > 0)
+		*perm = '@';
+}
+
+void		ft_getperm(mode_t mode, char perm[12])
+{
+	ft_strncpy(perm, "---------- ", 11);
 	perm[0] = ft_filetype(mode);
 	user_perm(mode, perm);
 	group_perm(mode, perm);

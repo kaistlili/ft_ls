@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 01:49:09 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/26 21:50:24 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/27 01:21:46 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,24 @@ void		ft_validate_input(char *arg)
 		ft_printf("ft_ls: File name too long\n");
 		exit(1);
 	}
+}
+
+void		append_lst(t_file_lst **append_to, t_file_lst *to_append)
+{
+	t_file_lst *iter;
+
+	arg_errors(NULL);
+	if (*append_to == NULL)
+	{
+		*append_to = to_append;
+		return ;
+	}
+	iter = *append_to;
+	while (iter->next != NULL)
+	{
+		iter = iter->next;
+	}
+	iter->next = to_append;
 }
 
 t_file_lst	*handle_av(char **av)
@@ -46,7 +64,6 @@ t_file_lst	*handle_av(char **av)
 	}
 	if (g_format_fn == long_format)
 		fill_lf_info(file_lst);
-	arg_errors(NULL);
 	append_lst(&file_lst, dir_lst);
 	return (file_lst);
 }

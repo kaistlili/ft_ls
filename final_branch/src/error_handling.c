@@ -6,19 +6,13 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 15:48:41 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/26 21:41:03 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/27 01:19:33 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_ls.h"
 
-void	malloc_exit(void)
-{
-	ft_printf("ft_ls: malloc: %s", strerror(errno));
-	exit(1);
-}
-
-t_err_lst	*new_err_lst(char *path, char *errstr)
+static t_err_lst	*new_err_lst(char *path, char *errstr)
 {
 	t_err_lst	*tmp;
 
@@ -36,7 +30,7 @@ t_err_lst	*new_err_lst(char *path, char *errstr)
 	return (tmp);
 }
 
-void	add_err(t_err_lst **head, t_err_lst *to_add)
+static void			add_err(t_err_lst **head, t_err_lst *to_add)
 {
 	t_err_lst *tmp;
 
@@ -57,7 +51,7 @@ void	add_err(t_err_lst **head, t_err_lst *to_add)
 	}
 }
 
-void	print_lst(t_err_lst *err_lst)
+static void			print_lst(t_err_lst *err_lst)
 {
 	t_err_lst *tmp;
 
@@ -77,7 +71,7 @@ void	print_lst(t_err_lst *err_lst)
 	}
 }
 
-int	ret_var(int ret)
+int					ret_var(int ret)
 {
 	static	int	var_return = 0;
 
@@ -86,7 +80,7 @@ int	ret_var(int ret)
 	return (var_return);
 }
 
-void	arg_errors(char *path)
+void				arg_errors(char *path)
 {
 	static	t_err_lst	*err_lst = NULL;
 	t_err_lst			*tmp;

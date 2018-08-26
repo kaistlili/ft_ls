@@ -6,10 +6,16 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/04 18:23:18 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/25 20:54:15 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/27 00:42:17 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef FT_LS_H
+# define FT_LS_H
+
+#include <sys/types.h>
+#include <sys/acl.h>
+#include <sys/xattr.h>
 #include <time.h>
 #include <limits.h>
 #include <grp.h>
@@ -17,7 +23,6 @@
 #include <stdio.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <sys/types.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <dirent.h>
@@ -56,8 +61,8 @@ typedef	struct	s_long_f
 
 typedef struct s_file_lst
 {
-	char	full_path[4096];
-	char	name[255]; /*for excluding .. . easily | This should be a pointer to name in fullpath */
+	char	full_path[PATH_MAX];
+	char	name[NAME_MAX];
 	size_t	path_size;
 	struct	stat data;	
 	t_long_f	*long_format;	
@@ -68,7 +73,7 @@ typedef struct s_file_lst
 
 typedef	struct	s_err_lst
 {
-	char				full_path[4096];
+	char				full_path[PATH_MAX];
 	char				*error;
 	struct	s_err_lst	*next;
 }				t_err_lst;
@@ -78,10 +83,10 @@ typedef	int		(*sort_ptr)(t_file_lst*, t_file_lst*);
 typedef void	(*add_ptr)(t_file_lst**, t_file_lst*);
 typedef	int		(*stat_ptr)(const char*,struct stat*);
 
-extern format_ptr	format_fn;
-extern	sort_ptr	sort_fn;
-extern	add_ptr		add_fn;
-extern	stat_ptr	stat_fn;
+extern format_ptr	g_format_fn;
+extern	sort_ptr	g_sort_fn;
+extern	add_ptr		g_add_fn;
+extern	stat_ptr	g_stat_fn;
 
 // printing functions
 void	reg_format(t_file_lst *to_print);
@@ -95,7 +100,7 @@ int		cmpt_r(t_file_lst *chain, t_file_lst *to_add);
 int 	cmpsize(t_file_lst *chain, t_file_lst *to_add);
 int 	cmpsize_r(t_file_lst *chain, t_file_lst *to_add);
 //
-void	add_A(t_file_lst **head, t_file_lst *t_add);
+void	add_cap_a(t_file_lst **head, t_file_lst *t_add);
 void	add_node(t_file_lst **head, t_file_lst *t_add);
 void	add_all(t_file_lst **head, t_file_lst *t_add);
 //
@@ -111,19 +116,24 @@ void	append_lst(t_file_lst **apend_to, t_file_lst *to_append);
 
 int		new_file_node(char *path, t_file_lst **new);
 //higher level functions
-int	ft_inner_ls(t_file_lst *current, int Recursive);
+int	ft_inner_ls(t_file_lst *current, int recursive);
 t_file_lst	*handle_av(char **av);
 //test functions
 void	test_linked(t_file_lst *start);
 void	parse_test(void);
 void	destroy_lst(t_file_lst *head);
 //long_format functions
+void	print_totblk(t_file_lst *curr_dir);
+void	formatfn_dir(t_file_lst *iter);
 int		fill_lf_info(t_file_lst	*start);
 void	ft_getperm(mode_t mode, char perm[12]);
-void	group_perm(mode_t mode, char perm[12]);
-void	other_perm(mode_t mode, char per[12]);
-
+void	acl_xattr(t_file_lst *to_print, char *perm);
 //error handling
 int		ret_var(int ret);
 void	arg_errors(char *path);
 void	malloc_exit(void);
+//padding
+void	fill_padding(t_file_lst *start, t_padd padding);
+void	update_padd(t_padd *padding, t_long_f *long_form);
+
+#endif

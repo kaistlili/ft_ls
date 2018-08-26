@@ -6,7 +6,7 @@
 #    By: ktlili <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/10 23:32:37 by ktlili            #+#    #+#              #
-#    Updated: 2018/08/25 22:01:48 by ktlili           ###   ########.fr        #
+#    Updated: 2018/08/27 01:17:56 by ktlili           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,12 @@ SRC_NAME =	main.c \
 			formatting.c \
 			cmp.c \
 			formatting_util.c \
-			error_handling.c			
+			error_handling.c \
+			padding.c \
+			format_fn.c \
+			cmp2.c \
+			add_fn.c \
+			util.c
 
 OBJ_PATH = obj
 

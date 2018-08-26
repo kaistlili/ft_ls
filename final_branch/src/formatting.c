@@ -6,13 +6,31 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 14:04:24 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/26 21:51:49 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/27 01:20:12 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_ls.h"
 
-int	fill_usergroup(t_file_lst *file)
+void	print_totblk(t_file_lst *curr_dir)
+{
+	blkcnt_t blocks;
+
+	blocks = 0;
+	if (curr_dir == NULL)
+	{
+		ft_printf("total %lu\n", blocks);
+		return ;
+	}
+	while (curr_dir != NULL)
+	{
+		blocks = curr_dir->data.st_blocks + blocks;
+		curr_dir = curr_dir->next;
+	}
+	ft_printf("total %lu\n", blocks);
+}
+
+int		fill_usergroup(t_file_lst *file)
 {
 	struct passwd	*spwd;
 	struct group	*sgrp;
@@ -32,47 +50,6 @@ int	fill_usergroup(t_file_lst *file)
 	return (0);
 }
 
-void	apply_padding(char dest[32], int padding, int rev)
-{
-	int len;
-
-	if (rev)
-		ft_strrev(dest);
-	len = ft_strlen(dest);
-	while (len < padding)
-	{
-		dest[len] = ' ';
-		len++;
-	}
-	dest[len] = 0;
-	if (rev)
-		ft_strrev(dest);
-}
-
-void	fill_padding(t_file_lst *start, t_padd padding)
-{
-	while (start != NULL)
-	{
-		apply_padding(start->long_format->links, padding.links_pad, 1);
-		apply_padding(start->long_format->user, padding.user_pad, 0);
-		apply_padding(start->long_format->group, padding.group_pad, 0);
-		apply_padding(start->long_format->size, padding.size_pad, 1);
-		start = start->next;
-	}
-}
-
-void	update_padd(t_padd *padding, t_long_f *long_form)
-{
-	if (padding->links_pad < (int)ft_strlen(long_form->links))
-		padding->links_pad = ft_strlen(long_form->links);
-	if (padding->user_pad < (int)ft_strlen(long_form->user))
-		padding->user_pad = ft_strlen(long_form->user);
-	if (padding->group_pad < (int)ft_strlen(long_form->group))
-		padding->group_pad = ft_strlen(long_form->group);
-	if (padding->size_pad < (int)ft_strlen(long_form->size))
-		padding->size_pad = ft_strlen(long_form->size);
-}
-
 void	fill_date(t_file_lst *file)
 {
 	char *time_str;
@@ -87,13 +64,6 @@ void	fill_date(t_file_lst *file)
 	}
 }
 
-void	test_padding(t_padd padding)
-{
-	ft_printf("links %d user %d grp %d size %d\n",
-		padding.links_pad, padding.user_pad, padding.group_pad,
-			padding.size_pad);
-}
-
 void	major_minor(dev_t dev, char size[32])
 {
 	int wrote;
@@ -106,7 +76,7 @@ void	major_minor(dev_t dev, char size[32])
 	ft_utoa_base(minor(dev), 10, &size[wrote], 1);
 }
 
-int	fill_lf_info(t_file_lst *start)
+int		fill_lf_info(t_file_lst *start)
 {
 	t_file_lst	*tmp;
 	t_padd		padding;

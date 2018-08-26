@@ -6,13 +6,13 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/07 22:03:29 by ktlili            #+#    #+#             */
-/*   Updated: 2018/08/26 21:20:09 by ktlili           ###   ########.fr       */
+/*   Updated: 2018/08/27 01:23:02 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_ls.h"
 
-int	is_explorable(t_file_lst *node)
+int			is_explorable(t_file_lst *node)
 {
 	if (!S_ISDIR(node->data.st_mode))
 		return (0);
@@ -23,7 +23,7 @@ int	is_explorable(t_file_lst *node)
 	return (1);
 }
 
-void	construct_path(char *parent, char *sub_name, char *buff)
+void		construct_path(char *parent, char *sub_name, char *buff)
 {
 	int len;
 
@@ -39,7 +39,8 @@ void	construct_path(char *parent, char *sub_name, char *buff)
 	}
 }
 
-void	readdirloop(DIR *dirp, t_file_lst *to_explore, t_file_lst **file_lst)
+void		readdirloop(DIR *dirp, t_file_lst *to_explore,
+				t_file_lst **file_lst)
 {
 	t_file_lst		*tmp;
 	char			path[PATH_MAX];
@@ -81,36 +82,7 @@ t_file_lst	*explore_dir(t_file_lst *to_explore)
 	return (file_lst);
 }
 
-void	print_totblk(t_file_lst *curr_dir)
-{
-	blkcnt_t blocks;
-
-	blocks = 0;
-	if (curr_dir == NULL)
-	{
-		ft_printf("total %lu\n", blocks);
-		return ;
-	}
-	while (curr_dir != NULL)
-	{
-		blocks = curr_dir->data.st_blocks + blocks;
-		curr_dir = curr_dir->next;
-	}
-	ft_printf("total %lu\n", blocks);
-}
-
-static	void	formatfn_dir(t_file_lst *iter)
-{
-	if (g_format_fn == long_format)
-		print_totblk(iter);
-	while (iter != NULL)
-	{
-		g_format_fn(iter);
-		iter = iter->next;
-	}
-}
-
-int	ft_inner_ls(t_file_lst *current, int recursive)
+int			ft_inner_ls(t_file_lst *current, int recursive)
 {
 	t_file_lst *curr_dir;
 	t_file_lst *iter;
